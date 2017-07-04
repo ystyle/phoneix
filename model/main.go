@@ -42,7 +42,7 @@ type Config struct {
 	Passwd   string `json:"passwd"`
 	Config   string     `json:"-"`
 	Tokens   []tokenItem `json:"-"`
-	Servers  []*JenkinsServer `json:"servers"`
+	Servers  []JenkinsServer `json:"servers"`
 	Webhooks []WebHoooks `json:"webhooks"`
 }
 
@@ -78,7 +78,7 @@ func (c *Config) LoadConfig(path string) {
 		ConfigContext.Webhooks = make([]WebHoooks, 0)
 	}
 	if ConfigContext.Servers == nil {
-		ConfigContext.Servers = make([]*JenkinsServer, 0)
+		ConfigContext.Servers = make([]JenkinsServer, 0)
 	}
 }
 
@@ -95,8 +95,8 @@ func (c *Config) SaveConfig(path string) {
 }
 
 // delete server
-func (c *Config) deleteServer(id string) {
-	var servers []*JenkinsServer
+func (c *Config) DeleteServer(id string) {
+	var servers []JenkinsServer
 	for _, s := range c.Servers {
 		if s.Id == id {
 			continue
@@ -106,16 +106,21 @@ func (c *Config) deleteServer(id string) {
 	c.Servers = servers
 }
 
-// add server
-func (c *Config) AddServer(s *JenkinsServer) {
-	s.Id = utils.Uuid()
-	s.CreateDate = time.Now().Format("2006-01-02 15:04:05")
+func (s *JenkinsServer) PreInsert()  {
+	if s.Id == "" {
+		s.Id = utils.Uuid()
+		s.CreateDate = time.Now().Format("2006-01-02 15:04:05")
+	}
 	s.UpdateDate = time.Now().Format("2006-01-02 15:04:05")
+}
+
+// add server
+func (c *Config) AddServer(s JenkinsServer) {
 	c.Servers = append(c.Servers, s)
 }
 
 // modify server
-func (c *Config) ModifyServer(s *JenkinsServer) {
+func (c *Config) ModifyServer(s JenkinsServer) {
 	s.UpdateDate = time.Now().Format("2006-01-02 15:04:05")
 	for i, item := range c.Servers {
 		if s.Id == item.Id {
@@ -125,8 +130,8 @@ func (c *Config) ModifyServer(s *JenkinsServer) {
 }
 
 // get a  server
-func (c *Config) GetServer(id string) *JenkinsServer {
-	var s *JenkinsServer
+func (c *Config) GetServer(id string) JenkinsServer {
+	var s JenkinsServer
 	for _, item := range c.Servers {
 		if id == item.Id {
 			s = item
@@ -138,7 +143,7 @@ func (c *Config) GetServer(id string) *JenkinsServer {
 
 
 // delete webhooks
-func (c *Config) deleteWebhooks(id string) {
+func (c *Config) DeleteWebhooks(id string) {
 	var webHooks []WebHoooks
 	for _, item := range c.Webhooks {
 		if item.Id == id {
@@ -151,17 +156,39 @@ func (c *Config) deleteWebhooks(id string) {
 
 // add Webhooks
 func (c *Config) AddWebhooks(w WebHoooks) {
+	log.Println(c.Webhooks)
 	c.Webhooks = append(c.Webhooks, w)
 }
 
 // modify Webhooks
 func (c *Config) ModifyWebhooks(w WebHoooks) {
+	w.UpdateDate = time.Now().Format("2006-01-02 15:04:05")
 	for i, item := range c.Servers {
 		if w.Id == item.Id {
 			c.Webhooks[i] = w
 		}
 	}
 }
+
+// get a  webhooks
+func (c *Config) GetWebhooks(id string) WebHoooks {
+	var s WebHoooks
+	for _, item := range c.Webhooks {
+		if id == item.Id {
+			s = item
+		}
+	}
+	return s
+}
+
+func (w *WebHoooks) PreInsert()  {
+	if w.Id =="" {
+		w.Id = utils.Uuid()
+		w.CreateDate = time.Now().Format("2006-01-02 15:04:05")
+	}
+	w.UpdateDate = time.Now().Format("2006-01-02 15:04:05")
+}
+
 
 // modify config
 func (c *Config) ModifyConfig(cfg Config) {
@@ -222,19 +249,44 @@ func (c *Config) ClearToken() {
 	log.Printf("clear token tasks：total tokens: %d , will clear %d token. ", start, start-end)
 }
 
-func ValidateServer(server *JenkinsServer) (bool, error) {
+func ValidateServer(server JenkinsServer) (bool, error) {
 	var errormsg string
 	if server.Name == "" {
 		errormsg += "[名称]不能为空\n"
 	}
 	if !utils.IsMatcher(server.Url, `^http(s)?://.*`) {
-		errormsg += "[地址不能为空\n"
+		errormsg += "[地址]不能为空\n"
 	}
-	if server.Name == "" {
+	if server.User == "" {
 		errormsg += "[用户名]不能为空\n"
 	}
 	if server.Passwd == "" {
 		errormsg += "[密码]不能为空\n"
+	}
+	if errormsg == "" {
+		return true, nil
+	} else {
+		return false, errors.New(errormsg)
+	}
+}
+
+
+func ValidateWebHooks(hooks WebHoooks) (bool, error) {
+	var errormsg string
+	if hooks.Name == "" {
+		errormsg += "[名称]不能为空\n"
+	}
+	if hooks.JenkinsId == "" {
+		errormsg += "[服务器]不能为空\n"
+	}
+	if hooks.JenkinsProject == "" {
+		errormsg += "[jenkins项目]不能为空\n"
+	}
+	if hooks.JenkinsToken == "" {
+		errormsg += "[JenkinsToken]不能为空\n"
+	}
+	if hooks.GitProject == "" {
+		errormsg += "[Git项目]不能为空\n"
 	}
 	if errormsg == "" {
 		return true, nil

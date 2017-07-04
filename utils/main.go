@@ -25,7 +25,7 @@ func OutputJson(w http.ResponseWriter, result interface{}) {
 
 func Matcher(content string, regex string, group int) string {
 	reg := regexp.MustCompile(regex)
-	res := reg.FindAllStringSubmatch("/api/servers/4c45d5146a606a24fb4372a37c21ed6e", -1)
+	res := reg.FindAllStringSubmatch(content, -1)
 	if len(res) > 0 {
 		return res[0][group]
 	}

@@ -1,25 +1,13 @@
 package main
 
 import (
-	"github.com/ystyle/phoneix/model"
 	"fmt"
+	"github.com/ystyle/phoneix/utils"
+	"strings"
 )
 
 func main() {
-	model.ConfigContext.LoadConfig("./phoneix.json")
-	var s *model.JenkinsServer = &model.JenkinsServer{
-		Name:"名称",
-		Url:"http://biadu.com",
-		User:"user",
-		Passwd:"password",
-		Remarks:"remark",
-	}
-	model.ConfigContext.AddServer(s)
-	b,err := model.ValidateServer(s)
-	if !b {
-		fmt.Println(err)
-	}
-	fmt.Println(s.Id)
-	fmt.Println(s)
-	fmt.Println(model.ConfigContext.Servers)
+	fmt.Printf(strings.TrimSuffix("/api/servers/491d8c03511b6faeae086e1f7db9bcbe","/"))
+	d  := utils.Matcher("",`/api/servers/(.*)?[/]?`,1)
+	fmt.Printf(d)
 }
