@@ -20,7 +20,7 @@ NAME:
    glide - proxy git server's webhooks for jenkins
 
 USAGE:
-   phoneix.exe [global options] command [command options] [arguments...]
+   phoneix [global options] command [command options] [arguments...]
 
 VERSION:
    1.0.0
