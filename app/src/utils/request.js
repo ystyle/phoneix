@@ -1,4 +1,5 @@
 import fetch from 'dva/fetch';
+import { hashHistory } from 'dva/router'
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -21,5 +22,8 @@ export default async function request(url, options) {
   const response = await fetch(url, options);
   checkStatus(response);
   const data = await response.json();
+  if (data.Status == -1){
+    hashHistory.push("login")
+  }
   return data
 }

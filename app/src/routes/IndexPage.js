@@ -5,6 +5,7 @@ import {Icon, Layout, Menu} from "antd";
 const {Header, Content, Footer, Sider} = Layout;
 const SubMenu = Menu.SubMenu;
 import { Router, Route, Link } from 'react-router'
+import Welcome from '../components/Welcome';
 
 
 class IndexPage extends React.Component {
@@ -52,7 +53,7 @@ class IndexPage extends React.Component {
         {/*<Header style={{background: '#fff', padding: 0}}/>*/}
         <Content style={{margin: '24px 16px 0'}}>
           <div style={{padding: 24, background: '#fff', minHeight: 360}}>
-            {this.props.children || "Welcome to your Inbox"}
+            {this.props.children || (<Welcome/>)}
           </div>
         </Content>
         <Footer style={{textAlign: 'center'}}>

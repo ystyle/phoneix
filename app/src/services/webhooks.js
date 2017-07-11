@@ -2,42 +2,41 @@
  * Created by Administrator on 2017/7/11.
  */
 import request from "../utils/request";
-import {TOKEN} from "../constants";
 
-export function fetch() {
+export function fetch(token) {
   return request(`/api/webhooks`,{
     headers:{
-      "token":TOKEN
+      "token":token
     }
   });
 }
 
 
-export function remove(id) {
+export function remove(id,token) {
   return request(`/api/webhooks/${id}`,{
     method: 'DELETE',
     headers:{
-      "token":TOKEN
+      "token":token
     }
   });
 }
 
-export function modify(id, row) {
+export function modify(id, row,token) {
   return request(`/api/webhooks/${id}`, {
     method: 'PUT',
     body: JSON.stringify(row),
     headers: {
-      "token": TOKEN
+      "token": token
     }
   });
 }
 
-export function create(row) {
+export function create(row,token) {
   return request(`/api/webhooks`, {
     method: 'POST',
     body: JSON.stringify(row),
     headers: {
-      "token": TOKEN
+      "token": token
     }
   });
 }

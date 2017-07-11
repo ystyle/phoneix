@@ -21,7 +21,7 @@ func LoginAction(w http.ResponseWriter, r *http.Request) {
 		utils.OutputJson(w, result)
 		return
 	}
-	user := params.String("user")
+	user := params.String("userName")
 	password := params.String("password")
 	if model.ConfigContext.User == user && model.ConfigContext.Passwd == password {
 		uuid := utils.Uuid()
@@ -41,6 +41,7 @@ func ModifySiteAction(w http.ResponseWriter, r *http.Request) {
 	b, err := validateToekn(r)
 	if !b {
 		result.Message = err.Error()
+		result.Status = -1
 		utils.OutputJson(w, result)
 		return
 	}
@@ -71,6 +72,7 @@ func ModifyUserAction(w http.ResponseWriter, r *http.Request) {
 	b, err := validateToekn(r)
 	if !b {
 		result.Message = err.Error()
+		result.Status = -1
 		utils.OutputJson(w, result)
 		return
 	}
@@ -102,6 +104,7 @@ func ServerAction(w http.ResponseWriter, r *http.Request) {
 	b, err := validateToekn(r)
 	if !b {
 		result.Message = err.Error()
+		result.Status = -1
 		utils.OutputJson(w, result)
 		return
 	}
@@ -164,6 +167,7 @@ func WebHooksAction(w http.ResponseWriter, r *http.Request) {
 	b, err := validateToekn(r)
 	if !b {
 		result.Message = err.Error()
+		result.Status = -1
 		utils.OutputJson(w, result)
 		return
 	}
@@ -219,14 +223,7 @@ func WebHooksAction(w http.ResponseWriter, r *http.Request) {
 }
 
 func validateToekn(r *http.Request) (bool, error) {
-	err := r.ParseForm()
-	if err != nil {
-		return false, errors.New("Parameter error!")
-	}
-	token := r.FormValue("token")
-	if token == "" {
-		token = r.Header.Get("token")
-	}
+	token := r.Header.Get("token")
 	b := model.ConfigContext.ValidateToken(token)
 	if !b {
 		return false, errors.New("token Invalid or Expired")
