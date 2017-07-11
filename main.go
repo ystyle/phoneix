@@ -93,6 +93,7 @@ func commands() []cli.Command {
 				model.ConfigContext.LoadConfig(c.GlobalString("config"))
 				port := c.Int("p")
 				http.HandleFunc("/api/login",controller.LoginAction)
+				http.HandleFunc("/api/config",controller.FindConfigAction)
 				http.HandleFunc("/api/modifySite",controller.ModifySiteAction)
 				http.HandleFunc("/api/modifyUser",controller.ModifyUserAction)
 				http.HandleFunc("/api/servers",controller.ServerAction)

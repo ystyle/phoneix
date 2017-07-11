@@ -29,7 +29,6 @@ class WebHooksEditModal extends Component {
     const {onOk} = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
         onOk(values);
         this.hideModelHandler();
       }

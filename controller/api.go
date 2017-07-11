@@ -99,6 +99,18 @@ func ModifyUserAction(w http.ResponseWriter, r *http.Request) {
 	utils.OutputJson(w, result)
 }
 
+
+func FindConfigAction(w http.ResponseWriter, r *http.Request) {
+	result := model.Result{Status: 0}
+	w.Header().Set("content-type", "application/json")
+	data := make(map[string]string)
+	data["name"] =model.ConfigContext.Name
+	data["url"] =model.ConfigContext.Url
+	result.Data = data
+	result.Status = 1
+	utils.OutputJson(w, result)
+}
+
 func ServerAction(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s", r.Method, r.RequestURI)
 	result := model.Result{Status: 0}

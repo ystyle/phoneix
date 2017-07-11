@@ -15,16 +15,16 @@ class IndexPage extends React.Component {
   }
 
   render() {
+    const {name} = this.props.config;
     return <Layout className={styles.layoutheight}>
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
         onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
         }}
       >
         <div className={styles.logo}>
-          管理系统
+          {name||'WebHooks管理系统'}
         </div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
           <Menu.Item key="1">
@@ -50,8 +50,10 @@ class IndexPage extends React.Component {
               </Link>
             </Menu.Item>
             <Menu.Item key="6">
-              <Icon type="bars"/>
-              <span className="nav-text">网站设置</span>
+              <Link to="/siteconfig">
+                <Icon type="bars"/>
+                <span className="nav-text">网站设置</span>
+              </Link>
             </Menu.Item>
           </SubMenu>
         </Menu>
@@ -73,4 +75,10 @@ class IndexPage extends React.Component {
 
 IndexPage.propTypes = {};
 
-export default connect()(IndexPage);
+function mapStateToProps(props) {
+  const config = props.config;
+  return {config};
+}
+
+
+export default connect(mapStateToProps)(IndexPage);

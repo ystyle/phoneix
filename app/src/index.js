@@ -20,6 +20,7 @@ app.use(createLoading());
 app.model(require('./models/servers'));
 app.model(require('./models/webhooks'));
 app.model(require('./models/user'));
+app.model(require('./models/config'));
 
 // 4. Router
 app.router(require('./router'));

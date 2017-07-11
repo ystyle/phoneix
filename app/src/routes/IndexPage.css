@@ -24,12 +24,13 @@
 }
 
 .logo {
-  height: 1.5em;
+  height: 2em;
+  line-height: 2em;
   background: #333;
   border-radius: 0.28em;
   margin: 0.5em;
   color: whitesmoke;
-  font-size: 2.1em;
+  font-size: 1.6em;
   text-align: center
 ;
 }
