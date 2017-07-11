@@ -100,6 +100,7 @@ func commands() []cli.Command {
 				http.HandleFunc("/api/servers/",controller.ServerAction)
 				http.HandleFunc("/api/webhooks",controller.WebHooksAction)
 				http.HandleFunc("/api/webhooks/",controller.WebHooksAction)
+				http.HandleFunc("/webhooks/",controller.WebHooksTriggerAction)
 				log.Printf("Server started. Listening on %d", port)
 				go func() {
 					t1 := time.NewTimer(time.Second * 5)

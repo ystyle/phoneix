@@ -107,7 +107,7 @@ class WebHooksEditModal extends Component {
                 })(<Input type="password"/>)
               }
             </FormItem>
-            <FormItem {...formItemLayout} label="git 项目">
+            <FormItem {...formItemLayout} label="git 项目" extra="不为空时则在触发WebHooks时校验项目名，不通过时则不触发。">
               {
                 getFieldDecorator('gitProject',{
                   initialValue:gitProject

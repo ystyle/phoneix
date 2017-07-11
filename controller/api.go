@@ -99,13 +99,12 @@ func ModifyUserAction(w http.ResponseWriter, r *http.Request) {
 	utils.OutputJson(w, result)
 }
 
-
 func FindConfigAction(w http.ResponseWriter, r *http.Request) {
 	result := model.Result{Status: 0}
 	w.Header().Set("content-type", "application/json")
 	data := make(map[string]string)
-	data["name"] =model.ConfigContext.Name
-	data["url"] =model.ConfigContext.Url
+	data["name"] = model.ConfigContext.Name
+	data["url"] = model.ConfigContext.Url
 	result.Data = data
 	result.Status = 1
 	utils.OutputJson(w, result)
@@ -234,6 +233,50 @@ func WebHooksAction(w http.ResponseWriter, r *http.Request) {
 		result.Message = "delete success"
 	}
 	utils.OutputJson(w, result)
+}
+
+func WebHooksTriggerAction(w http.ResponseWriter, r *http.Request) {
+	id := utils.Matcher(strings.TrimSuffix(r.RequestURI, "/"), `/webhooks/(.*)`, 1)
+	hook := model.ConfigContext.GetWebhooks(id)
+	if hook.Id == "" {
+		log.Printf("Error WebHooks ID: %s", id)
+		return
+	}
+	server := model.ConfigContext.GetServer(hook.JenkinsId)
+	if server.Id == "" {
+		log.Printf("Error Server ID: %s", id)
+		return
+	}
+
+	if hook.GitProject != "" {
+		body, _ := ioutil.ReadAll(r.Body)
+		var res map[string]interface{}
+		err := json.Unmarshal(body, &res)
+		if err != nil {
+			log.Printf("Invalid request Body: %s", string(body))
+			return
+		}
+		iRepository,ok := res["repository"]
+		if !ok {
+			log.Printf("parse request body error")
+			return
+		}
+		repository:=iRepository.(map[string]interface{})
+		repositoryName := repository["name"].(string)
+		if hook.GitProject != repositoryName {
+			log.Printf("source repository name is : %s, but the WebHooks config(%s %s): %s ",
+				repositoryName, hook.Id, hook.Name, hook.GitProject)
+			return
+		}
+	}
+	b := utils.TriggerBuild(server.Url, hook.JenkinsProject, server.User, server.Passwd, hook.JenkinsToken)
+	if b {
+		log.Printf("trigger jenkins success! target server: %s,%s, git project: %s, jenkins project: %s ",
+			server.Name, server.Id, hook.GitProject, hook.JenkinsProject)
+	}else {
+		log.Printf(" An error occurred during trigger jenkins! target server: %s,%s, git project: %s, jenkins project: %s ",
+			server.Name, server.Id, hook.GitProject, hook.JenkinsProject)
+	}
 }
 
 func validateToekn(r *http.Request) (bool, error) {

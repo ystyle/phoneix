@@ -5,7 +5,7 @@ import styles from './WebHooksList.css'
 import WebHooksModal from './WebHooksModal'
 
 
-function Webhooks({dispatch,list: dataSource, loading}) {
+function Webhooks({dispatch,list: dataSource, loading,configurl}) {
   function deleteHandler(id) {
     dispatch({
       type: 'webhooks/remove',
@@ -25,6 +25,10 @@ function Webhooks({dispatch,list: dataSource, loading}) {
       type: 'webhooks/create',
       payload: values,
     });
+  }
+
+  function focusHandler(values) {
+    console.log(this);
   }
 
   const columns = [
@@ -71,16 +75,23 @@ function Webhooks({dispatch,list: dataSource, loading}) {
     {
       title: '操作',
       key: 'operation',
-      render: (text, row) => (
-        <span className={styles.operation}>
+      render: (text, row) => {
+        const webhooks = `${configurl}/webhooks/${row.id}`;
+        return (
+          <span className={styles.operation}>
           <WebHooksModal row={row} onOk={modifyHandler.bind(null,row.id)}>
              <a>编辑</a>
           </WebHooksModal>
            <Popconfirm title="确定要删除吗?" onConfirm={deleteHandler.bind(null, row.id)}>
             <a href="#">删除</a>
            </Popconfirm>
+
+          <Popconfirm title={(<div><label>请手动复制连接！</label><br/><input onFocus={focusHandler.bind(null,row)} autoFocus="autofocus"  value={webhooks} /></div>)}>
+            <a href="#">复制WebHooks连接</a>
+           </Popconfirm>
          </span>
-      )
+        )
+      }
     }
   ]
 
@@ -102,8 +113,9 @@ function Webhooks({dispatch,list: dataSource, loading}) {
 function mapStateToProps(state) {
   let {list} = state.webhooks;
   const servers = state.servers.list;
+  const configurl = state.config.url;
   list = _.map(list,(row) => _.assign(row,{jenkinsName:_.find(servers,{id:row.jenkinsId}).name}));
-  return {list,loading: state.loading.models.webhooks}
+  return {list,loading: state.loading.models.webhooks,configurl}
 }
 
 export default connect(mapStateToProps)(Webhooks);

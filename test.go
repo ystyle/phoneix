@@ -2,12 +2,30 @@ package main
 
 import (
 	"fmt"
-	"github.com/ystyle/phoneix/utils"
 	"strings"
+	"net/http"
+	"io/ioutil"
 )
 
 func main() {
-	fmt.Printf(strings.TrimSuffix("/api/servers/491d8c03511b6faeae086e1f7db9bcbe","/"))
-	d  := utils.Matcher("",`/api/servers/(.*)?[/]?`,1)
-	fmt.Printf(d)
+	client := &http.Client{}
+
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/job/%s/build?token=5s",), strings.NewReader("name=cjb"))
+	if err != nil {
+		// handle error
+	}
+
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.SetBasicAuth("yinfxs","yfx1020")
+
+	resp, err := client.Do(req)
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		// handle error
+	}
+
+	fmt.Println(string(body))
 }
