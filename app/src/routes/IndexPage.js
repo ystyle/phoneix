@@ -22,10 +22,10 @@ class IndexPage extends React.Component {
         </div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
           <Menu.Item key="1">
-            <Icon type="cloud"/>
-            <span className="nav-text">
-              <Link to="/servers">服务器</Link>
-            </span>
+            <Link to="/servers">
+              <Icon type="cloud"/>
+              <span className="nav-text">服务器</span>
+            </Link>
           </Menu.Item>
           <Menu.Item key="2">
             <Icon type="check-circle"/>
@@ -47,7 +47,7 @@ class IndexPage extends React.Component {
         </Menu>
       </Sider>
       <Layout>
-        <Header style={{background: '#fff', padding: 0}}/>
+        {/*<Header style={{background: '#fff', padding: 0}}/>*/}
         <Content style={{margin: '24px 16px 0'}}>
           <div style={{padding: 24, background: '#fff', minHeight: 360}}>
             {this.props.children || "Welcome to your Inbox"}

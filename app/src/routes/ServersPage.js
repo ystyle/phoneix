@@ -5,22 +5,13 @@ import React from 'react';
 import { connect } from 'dva';
 import ServersList from '../components/ServersList';
 
-const Servers = ({ dispatch, servers }) => {
-  function handleDelete(id) {
-    dispatch({
-      type: 'servers/delete',
-      payload: id,
-    });
-  }
+const Servers = () => {
   return (
     <div>
-      <h2>List of Servers</h2>
-      <ServersList onDelete={handleDelete} servers={servers} />
+      <h2>服务器列表</h2>
+      <ServersList />
     </div>
   );
 };
 
-// export default Products;
-export default connect(({ servers }) => ({
-  servers,
-}))(Servers);
+export default connect()(Servers);
