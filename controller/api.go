@@ -209,13 +209,7 @@ func WebHooksAction(w http.ResponseWriter, r *http.Request) {
 		result.Status = 1
 		result.Message = "save success"
 	case "DELETE":
-		params, body, err := model.ParseParams(r)
-		if err != nil {
-			result.Message = err.Error() + body
-			utils.OutputJson(w, result)
-			return
-		}
-		id := params.String("id")
+		id := utils.Matcher(strings.TrimSuffix(r.RequestURI, "/"), `/api/(.*)?/(.*)`, 2)
 		model.ConfigContext.DeleteWebhooks(id)
 		model.ConfigContext.SaveConfig(model.ConfigContext.Config)
 		result.Status = 1

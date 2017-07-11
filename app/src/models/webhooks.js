@@ -1,11 +1,8 @@
-/**
- * Created by Administrator on 2017/7/4.
- */
-import * as serversService from "../services/servers";
+import * as webhooksService from "../services/webhooks";
 import _ from 'lodash';
 
 export default {
-  namespace: 'servers',
+  namespace: 'webhooks',
   state: {
     list: [],
   },
@@ -16,29 +13,29 @@ export default {
   },
   effects: {
     *fetch({payload}, {call, put}) {
-      const {Data} = yield call(serversService.fetch);
-
+      const {Data} = yield call(webhooksService.fetch);
       yield put({type: 'save', payload: {data:_.reverse(_.sortBy(Data,['updateDate']))}});
+      yield put({type: 'servers/fetch'}, {});
     },
     *modify({payload: {id,row}}, {call, put,select }){
-      const servers = yield select(state => state.servers.list);
-      const server = _.find(servers,{id:id});
-      yield call(serversService.modify, id, _.assign(server,row));
+      const webhooks = yield select(state => state.webhooks.list);
+      const webhook = _.find(webhooks,{id:id});
+      yield call(webhooksService.modify, id, _.assign(webhook,row));
       yield put({type: 'fetch'}, {});
     },
     *remove({payload: id}, {call, put}){
-      yield call(serversService.remove, id);
+      yield call(webhooksService.remove, id);
       yield put({type: 'fetch'}, {});
     },
     *create({ payload: values }, { call, put }) {
-      yield call(serversService.create, values);
+      yield call(webhooksService.create, values);
       yield put({ type: 'fetch' });
     },
   },
   subscriptions: {
     setup({dispatch, history}){
       return history.listen(({pathname, query}) => {
-        if (pathname === '/servers') {
+        if (pathname === '/webhooks') {
           dispatch({type: 'fetch', payload: {}});
         }
       })

@@ -28,8 +28,10 @@ class IndexPage extends React.Component {
             </Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Icon type="check-circle"/>
-            <span className="nav-text">WebHooks</span>
+            <Link to="/webhooks">
+              <Icon type="check-circle"/>
+              <span className="nav-text">WebHooks</span>
+            </Link>
           </Menu.Item>
           <SubMenu
             key="sub1"
@@ -54,7 +56,7 @@ class IndexPage extends React.Component {
           </div>
         </Content>
         <Footer style={{textAlign: 'center'}}>
-          Ant Design ©2016 Created by Ant UED
+          Phoneix ©2016 Created by YSTYLE
         </Footer>
       </Layout>
     </Layout>

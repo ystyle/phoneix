@@ -29,7 +29,7 @@ type WebHoooks struct {
 	JenkinsProject string `json:"jenkinsProject"`
 	JenkinsToken   string `json:"jenkinsToken"`
 	GitProject     string `json:"gitProject"`
-	GitBranch      string `json:"git_branch"`
+	GitBranch      string `json:"gitBranch"`
 	Remarks        string `json:"remarks"`
 	CreateDate     string `json:"createDate"`
 	UpdateDate     string `json:"updateDate"`
@@ -163,9 +163,10 @@ func (c *Config) AddWebhooks(w WebHoooks) {
 // modify Webhooks
 func (c *Config) ModifyWebhooks(w WebHoooks) {
 	w.UpdateDate = time.Now().Format("2006-01-02 15:04:05")
-	for i, item := range c.Servers {
+	for i, item := range c.Webhooks {
 		if w.Id == item.Id {
 			c.Webhooks[i] = w
+			break
 		}
 	}
 }
