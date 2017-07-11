@@ -36,3 +36,9 @@
 .layoutheight{
   height: 100% !important;
 }
+
+.logout{
+  float: right;
+  text-align: right;
+  margin-right: 2em;
+}

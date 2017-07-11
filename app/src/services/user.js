@@ -10,3 +10,14 @@ export function login(user) {
     body: JSON.stringify(user),
   });
 }
+
+
+export function changePwd(user,token) {
+  return request(`/api/modifyUser`,{
+    method: 'POST',
+    body: JSON.stringify(user),
+    headers:{
+      "token":token
+    }
+  });
+}

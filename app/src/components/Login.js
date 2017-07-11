@@ -11,7 +11,6 @@ class NormalLoginForm extends React.Component {
     const {dispatch} = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         dispatch({
           type: 'user/login',
           payload: values,
@@ -53,8 +52,8 @@ class NormalLoginForm extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const login = state.login;
-  return {login}
+  const login = state.user;
+  return login
 }
 
 export default connect(mapStateToProps)(Form.create()(NormalLoginForm));

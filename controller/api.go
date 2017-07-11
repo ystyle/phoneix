@@ -83,16 +83,18 @@ func ModifyUserAction(w http.ResponseWriter, r *http.Request) {
 		utils.OutputJson(w, result)
 		return
 	}
-	user := params.String("username")
+	oldPassword := params.String("oldPassword")
 	password := params.String("password")
 
-	if user == "" || password == "" {
-		result.Message = "username and password are required."
-	} else {
-		model.ConfigContext.ModifyUser(user, password)
+	if oldPassword == "" || password == "" {
+		result.Message = "oldPassword and password are required."
+	} else if oldPassword == model.ConfigContext.Passwd {
+		model.ConfigContext.ModifyUser(model.ConfigContext.User, password)
 		model.ConfigContext.SaveConfig(model.ConfigContext.Config)
 		result.Status = 1
 		result.Message = "success !"
+	} else {
+		result.Message = "password Invalid!"
 	}
 	utils.OutputJson(w, result)
 }

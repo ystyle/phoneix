@@ -1,5 +1,6 @@
-import * as login from "../services/login";
+import * as userService from "../services/user";
 import { hashHistory } from 'react-router';
+import { message } from 'antd';
 
 export default {
   namespace: 'user',
@@ -14,11 +15,24 @@ export default {
   },
   effects: {
     *login({payload}, {call, put}) {
-      console.log("ddd",payload);
-      const {Data: token} = yield call(login.login, payload);
+      const {Data: token,Status} = yield call(userService.login, payload);
       yield put({type: 'save', payload: {userName: payload.userName, token}});
       localStorage.setItem("token",token);
-      hashHistory.push("/servers")
+      if (Status == 1){
+        hashHistory.push("/servers");
+        message.success("登陆成功！");
+      }else {
+        message.success("用户名或密码错误！");
+      }
+    },
+    *changePwd({payload}, {call, put,select}) {
+      const {token} = yield select(state => state.user);
+      const {Status} = yield call(userService.changePwd, payload,token);
+      if (Status == 1){
+        message.success("修改密码成功！")
+      }else {
+        message.success("修改密码失败！")
+      }
     }
   },
   subscriptions: {},

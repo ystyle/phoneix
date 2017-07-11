@@ -9,6 +9,11 @@ import Welcome from '../components/Welcome';
 
 
 class IndexPage extends React.Component {
+  logout = (e) => {
+    localStorage.setItem("token","");
+    location.reload()
+  }
+
   render() {
     return <Layout className={styles.layoutheight}>
       <Sider
@@ -39,8 +44,10 @@ class IndexPage extends React.Component {
             title={<span><Icon type="setting"/><span className="nav-text">设置</span></span>}
           >
             <Menu.Item key="5">
+              <Link to="/changepwd">
               <Icon type="user"/>
-              <span className="nav-text">修改密码</span>
+                <span className="nav-text">修改密码</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="6">
               <Icon type="bars"/>
@@ -50,7 +57,7 @@ class IndexPage extends React.Component {
         </Menu>
       </Sider>
       <Layout>
-        {/*<Header style={{background: '#fff', padding: 0}}/>*/}
+        <div className={styles.logout}><a onClick={this.logout}>注销</a></div>
         <Content style={{margin: '24px 16px 0'}}>
           <div style={{padding: 24, background: '#fff', minHeight: 360}}>
             {this.props.children || (<Welcome/>)}
