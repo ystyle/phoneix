@@ -22,7 +22,7 @@ export default {
       const webhooks = yield select(state => state.webhooks.list);
       const webhook = _.find(webhooks, {id: id});
       const {token} = yield select(state => state.user);
-      yield call(webhooksService.modify, id, _.assign(webhook, row, token));
+      yield call(webhooksService.modify, id, _.assign(webhook, row), token);
       yield put({type: 'fetch'}, {});
     },
     *remove({payload: id}, {call, put,select}){

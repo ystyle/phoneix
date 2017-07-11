@@ -1,11 +1,11 @@
 import React from "react";
 import {connect} from "dva";
-import styles from "./IndexPage.css";
 import {Icon, Layout, Menu} from "antd";
+import { Router, Route, Link } from 'react-router'
+import styles from "./IndexPage.css";
+import Welcome from '../components/Welcome';
 const {Header, Content, Footer, Sider} = Layout;
 const SubMenu = Menu.SubMenu;
-import { Router, Route, Link } from 'react-router'
-import Welcome from '../components/Welcome';
 
 
 class IndexPage extends React.Component {

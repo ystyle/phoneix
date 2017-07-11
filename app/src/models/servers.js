@@ -24,7 +24,7 @@ export default {
       const servers = yield select(state => state.servers.list);
       const server = _.find(servers, {id: id});
       const {token} = yield select(state => state.user);
-      yield call(serversService.modify, id, _.assign(server, row, token));
+      yield call(serversService.modify, id, _.assign(server, row), token);
       yield put({type: 'fetch'}, {});
     },
     *remove({payload: id}, {call, put, select}){

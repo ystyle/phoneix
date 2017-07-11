@@ -286,9 +286,6 @@ func ValidateWebHooks(hooks WebHoooks) (bool, error) {
 	if hooks.JenkinsToken == "" {
 		errormsg += "[JenkinsToken]不能为空\n"
 	}
-	if hooks.GitProject == "" {
-		errormsg += "[Git项目]不能为空\n"
-	}
 	if errormsg == "" {
 		return true, nil
 	} else {
