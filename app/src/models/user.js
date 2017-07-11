@@ -18,7 +18,7 @@ export default {
       const {Data: token} = yield call(login.login, payload);
       yield put({type: 'save', payload: {userName: payload.userName, token}});
       localStorage.setItem("token",token);
-      hashHistory.push("/")
+      hashHistory.push("/servers")
     }
   },
   subscriptions: {},

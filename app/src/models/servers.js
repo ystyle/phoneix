@@ -41,7 +41,7 @@ export default {
   subscriptions: {
     setup({dispatch, history}){
       return history.listen(({pathname, query}) => {
-        if (pathname === '/servers') {
+        if (pathname === '/servers'||pathname === '/') {
           dispatch({type: 'fetch', payload: {}});
         }
       })
