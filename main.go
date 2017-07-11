@@ -1,14 +1,18 @@
+//go:generate statik -src=./assets
+//go:generate go fmt statik/statik.go
 package main
 
 import (
-	"github.com/codegangsta/cli"
 	"os"
 	"log"
-	"github.com/ystyle/phoneix/model"
-	"net/http"
 	"fmt"
-	"github.com/ystyle/phoneix/controller"
 	"time"
+	"net/http"
+	_ "github.com/ystyle/phoneix/statik"
+	"github.com/codegangsta/cli"
+	"github.com/rakyll/statik/fs"
+	"github.com/ystyle/phoneix/model"
+	"github.com/ystyle/phoneix/controller"
 )
 
 const version = "1.0.0"
@@ -101,6 +105,8 @@ func commands() []cli.Command {
 				http.HandleFunc("/api/webhooks",controller.WebHooksAction)
 				http.HandleFunc("/api/webhooks/",controller.WebHooksAction)
 				http.HandleFunc("/webhooks/",controller.WebHooksTriggerAction)
+				statikFS, _ := fs.New()
+				http.Handle("/",http.FileServer(statikFS))
 				log.Printf("Server started. Listening on %d", port)
 				go func() {
 					t1 := time.NewTimer(time.Second * 5)

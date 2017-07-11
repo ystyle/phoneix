@@ -2,3 +2,5 @@ package: github.com/ystyle/phoneix
 import:
 - package: github.com/codegangsta/cli
   version: ^1.19.1
+- package: github.com/rakyll/statik
+  version: ^0.1.0
