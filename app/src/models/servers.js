@@ -3,6 +3,7 @@
  */
 import * as serversService from "../services/servers";
 import _ from "lodash";
+import show from "../utils/showMessage";
 
 export default {
   namespace: 'servers',
@@ -24,24 +25,27 @@ export default {
       const servers = yield select(state => state.servers.list);
       const server = _.find(servers, {id: id});
       const {token} = yield select(state => state.user);
-      yield call(serversService.modify, id, _.assign(server, row), token);
+      const res = yield call(serversService.modify, id, _.assign(server, row), token);
+      show(res,"修改");
       yield put({type: 'fetch'}, {});
     },
     *remove({payload: id}, {call, put, select}){
       const {token} = yield select(state => state.user);
-      yield call(serversService.remove, id, token);
+      const res =  yield call(serversService.remove, id, token);
+      show(res,"删除");
       yield put({type: 'fetch'}, {});
     },
     *create({payload: values}, {call, put, select}) {
       const {token} = yield select(state => state.user);
-      yield call(serversService.create, values, token);
+      const res = yield call(serversService.create, values, token);
+      show(res,"新增");
       yield put({type: 'fetch'});
     },
   },
   subscriptions: {
     setup({dispatch, history}){
       return history.listen(({pathname, query}) => {
-        if (pathname === '/servers'||pathname === '/') {
+        if (pathname === '/servers' || pathname === '/') {
           dispatch({type: 'fetch', payload: {}});
         }
       })

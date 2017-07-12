@@ -258,12 +258,6 @@ func ValidateServer(server JenkinsServer) (bool, error) {
 	if !utils.IsMatcher(server.Url, `^http(s)?://.*`) {
 		errormsg += "[地址]不能为空\n"
 	}
-	if server.User == "" {
-		errormsg += "[用户名]不能为空\n"
-	}
-	if server.Passwd == "" {
-		errormsg += "[密码]不能为空\n"
-	}
 	if errormsg == "" {
 		return true, nil
 	} else {

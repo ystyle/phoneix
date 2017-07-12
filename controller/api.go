@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"strings"
+	"fmt"
 )
 
 func LoginAction(w http.ResponseWriter, r *http.Request) {
@@ -165,6 +166,14 @@ func ServerAction(w http.ResponseWriter, r *http.Request) {
 
 	case "DELETE":
 		id := utils.Matcher(strings.TrimSuffix(r.RequestURI, "/"), `/api/(.*)?/(.*)`, 2)
+		for _, item := range model.ConfigContext.Webhooks {
+			if item.JenkinsId == id {
+				server := model.ConfigContext.GetServer(id)
+				result.Message = fmt.Sprintf("delete fail, this %s server in used!", server.Name)
+				utils.OutputJson(w, result)
+				return
+			}
+		}
 		model.ConfigContext.DeleteServer(id)
 		model.ConfigContext.SaveConfig(model.ConfigContext.Config)
 		result.Status = 1
@@ -256,12 +265,12 @@ func WebHooksTriggerAction(w http.ResponseWriter, r *http.Request) {
 			log.Printf("Invalid request Body: %s", string(body))
 			return
 		}
-		iRepository,ok := res["repository"]
+		iRepository, ok := res["repository"]
 		if !ok {
 			log.Printf("parse request body error")
 			return
 		}
-		repository:=iRepository.(map[string]interface{})
+		repository := iRepository.(map[string]interface{})
 		repositoryName := repository["name"].(string)
 		if hook.GitProject != repositoryName {
 			log.Printf("source repository name is : %s, but the WebHooks config(%s %s): %s ",
@@ -273,7 +282,7 @@ func WebHooksTriggerAction(w http.ResponseWriter, r *http.Request) {
 	if b {
 		log.Printf("trigger jenkins success! target server: %s,%s, git project: %s, jenkins project: %s ",
 			server.Name, server.Id, hook.GitProject, hook.JenkinsProject)
-	}else {
+	} else {
 		log.Printf(" An error occurred during trigger jenkins! target server: %s,%s, git project: %s, jenkins project: %s ",
 			server.Name, server.Id, hook.GitProject, hook.JenkinsProject)
 	}

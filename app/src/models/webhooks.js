@@ -1,5 +1,6 @@
 import * as webhooksService from "../services/webhooks";
 import _ from "lodash";
+import show from "../utils/showMessage";
 
 export default {
   namespace: 'webhooks',
@@ -22,17 +23,20 @@ export default {
       const webhooks = yield select(state => state.webhooks.list);
       const webhook = _.find(webhooks, {id: id});
       const {token} = yield select(state => state.user);
-      yield call(webhooksService.modify, id, _.assign(webhook, row), token);
+      const res = yield call(webhooksService.modify, id, _.assign(webhook, row), token);
+      show(res,"修改");
       yield put({type: 'fetch'}, {});
     },
     *remove({payload: id}, {call, put,select}){
       const {token} = yield select(state => state.user);
-      yield call(webhooksService.remove, id, token);
+      const res = yield call(webhooksService.remove, id, token);
+      show(res,"删除");
       yield put({type: 'fetch'}, {});
     },
     *create({payload: values}, {call, put,select}) {
       const {token} = yield select(state => state.user);
-      yield call(webhooksService.create, values, token);
+      const res = yield call(webhooksService.create, values, token);
+      show(res,"新增");
       yield put({type: 'fetch'});
     },
   },

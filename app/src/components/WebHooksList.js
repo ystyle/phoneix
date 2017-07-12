@@ -114,7 +114,9 @@ function mapStateToProps(state) {
   let {list} = state.webhooks;
   const servers = state.servers.list;
   const configurl = state.config.url;
-  list = _.map(list,(row) => _.assign(row,{jenkinsName:_.find(servers,{id:row.jenkinsId}).name}));
+  if(servers && servers.length){
+    list = _.map(list,(row) => _.assign(row,{jenkinsName:_.find(servers,{id:row.jenkinsId}).name}));
+  }
   return {list,loading: state.loading.models.webhooks,configurl}
 }
 

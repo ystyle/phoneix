@@ -15,13 +15,13 @@ import (
 	"github.com/ystyle/phoneix/controller"
 )
 
-const version = "1.0.0"
+const version = "1.0.1"
 
 var config_path = ""
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "glide"
+	app.Name = "phoneix"
 	app.Usage = `proxy git server's webhooks for jenkins `
 	app.Version = version
 
