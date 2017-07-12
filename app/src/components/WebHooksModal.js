@@ -104,7 +104,7 @@ class WebHooksEditModal extends Component {
               {
                 getFieldDecorator('jenkinsToken',{
                   initialValue:jenkinsToken
-                })(<Input type="password" placeholder="input password"/>)
+                })(<Input type="password" placeholder="Jenkins project token"/>)
               }
             </FormItem>
             <FormItem {...formItemLayout} label="git 项目" extra="不为空时则在触发WebHooks时校验项目名，不一致时不触发Jenkins build。">
