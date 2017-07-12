@@ -62,7 +62,7 @@ class ServersEditModal extends Component {
                     required: true,
                     message: '必填',
                   }],
-                })(<Input/>)
+                })(<Input placeholder="server name"/>)
               }
             </FormItem>
             <FormItem {...formItemLayout} label="Url">
@@ -73,28 +73,28 @@ class ServersEditModal extends Component {
                     required: true,
                     message: '必填',
                   }],
-                })(<Input/>)
+                })(<Input placeholder="jenkins url"/>)
               }
             </FormItem>
             <FormItem {...formItemLayout} label="用户名">
               {
                 getFieldDecorator('user',{
                   initialValue:user
-                })(<Input/>)
+                })(<Input placeholder="jenkins login name"/>)
               }
             </FormItem>
             <FormItem {...formItemLayout} label="密码">
               {
                 getFieldDecorator('passwd',{
                   initialValue:passwd
-                })(<Input type="password"/>)
+                })(<Input type="password" placeholder="jenkins login password"/>)
               }
             </FormItem>
             <FormItem {...formItemLayout} label="备注">
               {
                 getFieldDecorator('remarks',{
                   initialValue:remarks
-                })(<Input/>)
+                })(<Input placeholder="input a remarks"/>)
               }
             </FormItem>
           </Form>

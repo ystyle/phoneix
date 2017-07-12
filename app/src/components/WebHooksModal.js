@@ -66,7 +66,7 @@ class WebHooksEditModal extends Component {
                     required: true,
                     message: '必填',
                   }],
-                })(<Input/>)
+                })(<Input placeholder="WebHooks name"/>)
               }
             </FormItem>
             <FormItem {...formItemLayout} label="jenkins服务器">
@@ -80,7 +80,7 @@ class WebHooksEditModal extends Component {
                 })(<Select
                   showSearch
                   style={{ width: 200 }}
-                  placeholder="Select a person"
+                  placeholder="Select a Server"
                   optionFilterProp="children"
                   // onChange={handleChange}
                   filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
@@ -97,35 +97,35 @@ class WebHooksEditModal extends Component {
                     required: true,
                     message: '必填',
                   }],
-                })(<Input/>)
+                })(<Input placeholder="Jenkins project name"/>)
               }
             </FormItem>
             <FormItem {...formItemLayout} label="Jenkins token">
               {
                 getFieldDecorator('jenkinsToken',{
                   initialValue:jenkinsToken
-                })(<Input type="password"/>)
+                })(<Input type="password" placeholder="input password"/>)
               }
             </FormItem>
-            <FormItem {...formItemLayout} label="git 项目" extra="不为空时则在触发WebHooks时校验项目名，不通过时则不触发。">
+            <FormItem {...formItemLayout} label="git 项目" extra="不为空时则在触发WebHooks时校验项目名，不一致时不触发Jenkins build。">
               {
                 getFieldDecorator('gitProject',{
                   initialValue:gitProject
-                })(<Input />)
+                })(<Input placeholder="input git project name" />)
               }
             </FormItem>
             <FormItem {...formItemLayout} label="git 分支">
               {
                 getFieldDecorator('gitBranch',{
                   initialValue:gitBranch
-                })(<Input />)
+                })(<Input placeholder="git branch"/>)
               }
             </FormItem>
             <FormItem {...formItemLayout} label="备注">
               {
                 getFieldDecorator('remarks',{
                   initialValue:remarks
-                })(<Input/>)
+                })(<Input placeholder="input a remarks"/>)
               }
             </FormItem>
           </Form>
