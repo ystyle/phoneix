@@ -1,17 +1,17 @@
 import React from "react";
 import {connect} from "dva";
 import {Icon, Layout, Menu} from "antd";
-import { Router, Route, Link } from 'react-router'
+import { Link, hashHistory } from 'dva/router'
 import styles from "./IndexPage.css";
 import Welcome from '../components/Welcome';
-const {Header, Content, Footer, Sider} = Layout;
+const {Content, Footer, Sider} = Layout;
 const SubMenu = Menu.SubMenu;
 
 
 class IndexPage extends React.Component {
   logout = (e) => {
     localStorage.setItem("token","");
-    location.reload()
+    hashHistory.push("login");
   }
 
   render() {

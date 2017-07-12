@@ -48,11 +48,6 @@ function Webhooks({dispatch,list: dataSource, loading,configurl}) {
       key: 'jenkinsProject'
     },
     {
-      title: "jenkins Token",
-      dataIndex: 'jenkinsToken',
-      key: 'jenkinsToken'
-    },
-    {
       title: "git 项目",
       dataIndex: 'gitProject',
       key: 'gitProject'
