@@ -12,7 +12,9 @@ Phoneix is a proxy for git server for jenkins. like github, gitlab, gogs, gitee 
 
 ### Install
 
-[download](https://github.com/ystyle/phoneix/releases/)
+- [Download](https://github.com/ystyle/phoneix/releases/)
+- init config 
+- start server
 
 ```shell
 $ ./phoneix -h
@@ -39,7 +41,11 @@ $  ./phoneix init # init config file
 $  ./phoneix server # start server
 ```
 
->then open [127.0.0.1:8080](http://127.0.0.1:8080) on chrome browser. and default the username/password is admin admin123. you can config it in `phoneix.json` or  `init command`
+- then open [127.0.0.1:8080](http://127.0.0.1:8080) on chrome browser. and default the username/password is admin admin123. you can config it in `phoneix.json` or  `init command`
+- change your site url in `网站设置` menu
+- add some server
+- add some webhooks
+- copy webhooks url(`WebHooks menu`) to you git platform
 
 ### screenshot
 ![](screenshot/chrome_2017-07-11_17-49-55.png)
