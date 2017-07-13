@@ -94,7 +94,7 @@ func commands() []cli.Command {
 				},
 			},
 			Action: func(c *cli.Context) error {
-				model.ConfigContext.LoadConfig(c.GlobalString("config"))
+
 				port := c.Int("p")
 				http.HandleFunc("/api/login",controller.LoginAction)
 				http.HandleFunc("/api/config",controller.FindConfigAction)
@@ -129,6 +129,7 @@ func commands() []cli.Command {
 func startup(c *cli.Context) error {
 	config_path = c.String("config")
 	model.ConfigContext.Config = config_path
+	model.ConfigContext.LoadConfig(config_path)
 	return nil
 }
 

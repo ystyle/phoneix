@@ -3,7 +3,6 @@ import {connect} from "dva";
 import {Icon, Layout, Menu} from "antd";
 import { Link, hashHistory } from 'dva/router'
 import styles from "./IndexPage.css";
-import Welcome from '../components/Welcome';
 const {Content, Footer, Sider} = Layout;
 const SubMenu = Menu.SubMenu;
 
@@ -62,7 +61,7 @@ class IndexPage extends React.Component {
         <div className={styles.logout}><a onClick={this.logout}>注销</a></div>
         <Content style={{margin: '24px 16px 0'}}>
           <div style={{padding: 24, background: '#fff', minHeight: 360}}>
-            {this.props.children || (<Welcome/>)}
+            {this.props.children}
           </div>
         </Content>
         <Footer style={{textAlign: 'center'}}>
