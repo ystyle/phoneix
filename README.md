@@ -9,6 +9,7 @@ Phoneix is a proxy for git server for jenkins. like github, gitlab, gogs, gitee 
 - Jenkins's login user and token
 - git project and jenkins project validate
 - has a Handsome web app for manage jenkins server and WebHooks
+- validate git project name and branch name
 
 ### Install
 

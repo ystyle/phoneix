@@ -15,7 +15,7 @@ import (
 	"github.com/ystyle/phoneix/controller"
 )
 
-const version = "1.0.2"
+const version = "1.0.3"
 
 var config_path = ""
 

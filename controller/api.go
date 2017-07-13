@@ -277,15 +277,18 @@ func WebHooksTriggerAction(w http.ResponseWriter, r *http.Request) {
 				repositoryName, hook.Id, hook.Name, hook.GitProject)
 			return
 		}
-		ref, ok := res["ref"]
-		if !ok {
-			log.Printf("this webhooks action is not have branch info")
-			return
-		}
-		if "refs/heads/" + hook.GitBranch != ref.(string) {
-			log.Printf("source repository name is : %s/%s, but the WebHooks config(%s %s): %s/%s ",
-				repositoryName,ref.(string), hook.Id, hook.Name, hook.GitProject,hook.GitBranch)
-			return
+		if hook.GitBranch != "" {
+			iRef, ok := res["ref"]
+			if !ok {
+				log.Printf("this webhooks action is not have branch info")
+				return
+			}
+			ref := utils.Matcher(iRef.(string),"refs/heads/(.*)",1)
+			if hook.GitBranch != ref {
+				log.Printf("source repository name is : %s/%s, but the WebHooks config(%s %s): %s/%s ",
+					repositoryName,ref, hook.Id, hook.Name, hook.GitProject,hook.GitBranch)
+				return
+			}
 		}
 	}
 	b := utils.TriggerBuild(server.Url, hook.JenkinsProject, server.User, server.Passwd, hook.JenkinsToken)
