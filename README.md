@@ -2,7 +2,7 @@
 
 
 ### Introduction
-Phoneix is a proxy for git server for jenkins. like github, gitlab, gogs, oschine git.
+Phoneix is a proxy for git server for jenkins. like github, gitlab, gogs, gitee etc.
 
 ### feature
 - Multiple jenkins server
