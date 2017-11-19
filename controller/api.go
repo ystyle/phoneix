@@ -245,6 +245,9 @@ func WebHooksAction(w http.ResponseWriter, r *http.Request) {
 }
 
 func WebHooksTriggerAction(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.RequestURI)
+	body, _ := ioutil.ReadAll(r.Body)
+	fmt.Println(body)
 	id := utils.Matcher(strings.TrimSuffix(r.RequestURI, "/"), `/webhooks/(.*)`, 1)
 	hook := model.ConfigContext.GetWebhooks(id)
 	if hook.Id == "" {
@@ -283,7 +286,7 @@ func WebHooksTriggerAction(w http.ResponseWriter, r *http.Request) {
 				log.Printf("this webhooks action is not have branch info")
 				return
 			}
-			ref := utils.Matcher(iRef.(string),"refs/heads/(.*)",1)
+			ref := utils.Matcher(iRef.(string),"refs/(heads|tags)/(.*)",2)
 			if hook.GitBranch != ref {
 				log.Printf("source repository name is : %s/%s, but the WebHooks config(%s %s): %s/%s ",
 					repositoryName,ref, hook.Id, hook.Name, hook.GitProject,hook.GitBranch)

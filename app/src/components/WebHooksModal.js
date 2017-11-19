@@ -114,11 +114,11 @@ class WebHooksEditModal extends Component {
                 })(<Input placeholder="input git project name" />)
               }
             </FormItem>
-            <FormItem {...formItemLayout} label="git 分支" extra="不为空时则在触发WebHooks时校验git分支，不一致时不触发Jenkins build。">
+            <FormItem {...formItemLayout} label="git 分支" extra="不为空时则在触发WebHooks时校验git分支/tag，不一致时不触发Jenkins build。">
               {
                 getFieldDecorator('gitBranch',{
                   initialValue:gitBranch
-                })(<Input placeholder="git branch"/>)
+                })(<Input placeholder="git branch/tag"/>)
               }
             </FormItem>
             <FormItem {...formItemLayout} label="备注">
